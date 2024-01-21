@@ -13,6 +13,7 @@ In the project directory, you can run:
 ### `npm start`
 
 アプリを開発モードで実行します。\
+以下のコマンドを実行してくれます。
 npm-run-all -p npm react:start & react:node
 
 ### `npm react:start`
