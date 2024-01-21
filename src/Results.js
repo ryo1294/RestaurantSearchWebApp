@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import ReactLoading from 'react-loading';
 import ReactPaginate from 'react-paginate';
@@ -31,7 +31,9 @@ const Results = ({getParams}) => {
   ]);
 
   const location = useLocation();
+  // クエリパラメータ
   const queryParams = new URLSearchParams(location.search);
+  // 一度に取得する数
   const limit = 10;
 
   // 初回に実行すること
@@ -47,28 +49,24 @@ const Results = ({getParams}) => {
     navigator.geolocation.getCurrentPosition(axiosData, errorCallback);
   }, []);
 
+  // ホットペッパーグルメAPIから店舗情報を取得
   const axiosData = async (position) => {
     try {
       setIsLoading(true);
 
-      // // テスト用に札幌中心地の緯度と経度
-      const lat = 43.062;
-      const lng = 141.3543;
-
       // 必要なデータ
       const endpoint = "http://localhost:8000/getHotPepperData";
       const params = {
-        lat: lat,
-        lng: lng,
-        // lat: lat,
-        // lng: lng,
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
         range: rangeMap.get(range),
         genre: genre,
         order: 4,
         format: "json",
         start: (pageNumber - 1) * limit + 1,
         count: limit,
-      };   
+      };
+      // クエリパラメータとして取得したパラメータを追加
       queryParams.forEach((param, key) => {
         params[key] = param;
       });
@@ -86,6 +84,7 @@ const Results = ({getParams}) => {
     }
   };
 
+  // Geolocation APIでErrorが発生した際のcallback関数
   const errorCallback = (error) => {
     console.error('Error Geolocation API:', error);
   }
@@ -106,6 +105,7 @@ const Results = ({getParams}) => {
     return apiUrl;
   };
 
+  // ReactPaginateが押された際の処理
   const handlePaginate = (data) => {
     const newPageNumber = parseInt(data['selected']) + 1;
 
@@ -116,22 +116,13 @@ const Results = ({getParams}) => {
     }
     // 最後にページ番号を最初に設定する
     url += `/${newPageNumber}`;
-
-    // パラメータ
-    // let params = "";
-    // const refList = [...document.querySelectorAll("input[type='checkbox']")];
-    // const refs = refList.filter(ref => ref.checked);
-
-    // refs.forEach((ref, i) => {
-    //   params += i === 0 ? "?" : "&";
-    //   params += ref.value + "=1";
-    // });
-
     const params = getParams();
 
+    // ページ遷移
     window.location.href = url + params;
   };
 
+  // formが送信されたときの処理
   const handleSumit = (e) => {
     e.preventDefault();
 
@@ -148,8 +139,22 @@ const Results = ({getParams}) => {
     window.location.href = url + params;
   }
 
-  if (pageNumber < 0) {
-    window.location.replace(`/${range}/1`);
+  // ページ番号が存在しない値だった場合
+  if (data !== null && 
+      (pageNumber < 0 || pageNumber > Math.ceil( data.results.results_available / limit))) {
+    // 絞り込み要素などを含んだURLに遷移
+    let url = `/${range}`;
+    if (genre !== "") {
+      url += `/${genre}`;
+    }
+    // 最後にページ番号を最初に設定する
+    url += "/1";
+
+    // データ数が0出ないなら（０ならページ番号がまず存在しないから）
+    if (data.results.results_available !== 0) {
+      // ページ遷移（replaceバージョン）
+      window.location.replace(url);
+    }
   }
 
   return (
