@@ -6,7 +6,7 @@ import Results from './Results';
 import ShopDetail from './ShopDetail';
 
 function App() {
-
+  // クエリパラメータとなるものを取得
   const getParams = () => {
     let params = "";
     const refList = [...document.querySelectorAll("input[type='checkbox']")];
