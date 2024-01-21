@@ -1,0 +1,47 @@
+.filed {
+  font-size: 32px;
+}
+
+@media screen and(max-width: 750px) {
+  .filed {
+    font-size: 8px;
+  }
+}
+
+.basicField {
+  font-size: 1.2em;
+  width: 90%;
+  min-width: 285px;
+  margin: auto;
+}
+
+.basicField select {
+  font-size: 1.2em;
+  padding: 0 1em;
+  margin: 0.5em;
+}
+
+.narrowDownField {
+  width: 90%;
+  margin: auto;
+}
+
+.narrowDownField > .homeNarrowDown {
+  border: solid 1px #333;
+  padding: 1em 0em;
+}
+
+.narrowDownField > .homeNarrowDown > ul {
+  width: 100%;
+  display: flex;
+  list-style: none;
+  flex-wrap: wrap;
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 1em;
+  margin: 0em;
+}
+
+.narrowDownField > .homeNarrowDown > ul > li {
+  padding: 0.2em 1em;
+}
