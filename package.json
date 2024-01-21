@@ -22,10 +22,10 @@
   "scripts": {
     "start": "npm-run-all -p react:start react:node",
     "react:start": "react-scripts start",
+    "react:node": "node src/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "react:node": "node src/server.js"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
