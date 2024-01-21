@@ -26,8 +26,6 @@ const Home = ({getParams}) => {
 
   // 検索範囲
   const rangeRef = useRef();
-  // キーワード
-  const keywordRef = useRef();
   // ジャンル
   const genreRef = useRef();
 
