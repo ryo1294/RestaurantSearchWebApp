@@ -12,11 +12,11 @@ In the project directory, you can run:
 
 ### `npm start`
 
+アプリを開発モードで実行します。\
 npm-run-all -p npm react:start & react:node
 
 ### `npm react:start`
 
-アプリを開発モードで実行します。\
 [http://localhost:3000](http://localhost:3000) を開いてブラウザで表示します。
 
 変更を加えるとページが再読み込みされます。\
